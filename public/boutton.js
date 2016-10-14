@@ -2,6 +2,13 @@
  * Created by ndenelson on 10/11/16.
  */
 var balise = document.getElementById("wearetechapi");
+var xhttp;
+
+if(window.XMLHttpRequest){
+    xhttp = new XMLHttpRequest();
+}else{
+    xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+}
 
 if(balise == null){
     balise = document.getElementsByName("wearetechapi");

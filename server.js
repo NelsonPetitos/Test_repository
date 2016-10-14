@@ -32,6 +32,10 @@ var listSocket = new Array();
 var i = 0;
 
 app.get('/', function(req, res){
+    res.sendFile(__dirname + '/public/index.html');
+});
+
+app.get('/initpopup', function(req, res){
     res.sendFile(__dirname + '/public/popup.html');
 });
 
