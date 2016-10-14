@@ -12,6 +12,6 @@ if(balise != null){
     newButton.innerHTML = "Mobile money payment";
     balise.parentNode.replaceChild(newButton, balise);
     newButton.addEventListener("click", function(){
-        location.href = "http://192.168.15.189:8080";
+        location.href = "https://paiementback.herokuapp.com";
     })
 }
