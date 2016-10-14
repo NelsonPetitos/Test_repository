@@ -1,0 +1,15 @@
+{
+  "name": "HelloWorldNodeJS",
+  "version": "0.0.0",
+  "description": "Simple hello world",
+  "main": "server.js",
+  "author": "Nelson",
+  "dependencies": {
+    "body-parser": "~1.15.1",
+    "express": "~4.13.4",
+    "method-override": "~2.1.3",
+    "mongoose": "^4.4.12",
+    "morgan": "~1.7.0",
+    "socket.io": "^1.5.0"
+  }
+}

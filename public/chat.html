@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="nelsonStyle.css" />
+</head>
+<body class="container">
+    <h1>Communication avec socket.io !</h1>
+
+    <input type="text"  placeholder="Type your message" id="message" />
+    <input type="button" value="Embêter le serveur" id="poke" />
+    <div><ul id="resultat" class="list-unstyled" ></ul></div>
+
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://localhost:8081');
+        socket.on('message', function(message) {
+            //alert(message.message);
+            $('#resultat').append("<br/><li class=\"btn btn-success col-md-offset-1\">"+message.message+"</li><br/>")
+        })
+        $('#poke').click(function () {
+            var val = $('#message').val();
+            socket.emit('message', val);
+            $('#resultat').append("<br/><li class=\"btn btn-info\">"+val+"</li><br/>");
+            $('#message').val("");
+        })
+    </script>
+</body>
+</html>

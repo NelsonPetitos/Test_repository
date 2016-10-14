@@ -1,0 +1,14 @@
+
+.sender {
+    border-width: 1px;
+    border-style: solid;
+    border-color: aqua;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-radius: 4px;
+}
+
+.receiver {
+    border-width:1px;
+}
