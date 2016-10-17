@@ -36,6 +36,7 @@ app.get('/', function(req, res){
 });
 
 app.get('/initpopup', function(req, res){
+    res.setHeader('content-type', 'text/html');
     res.sendFile(__dirname + '/public/popup.html');
 });
 
