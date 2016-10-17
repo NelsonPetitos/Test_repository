@@ -14,3 +14,131 @@
     <h1>Server is on line.</h1>
 </body>
 </html>
+
+<script>
+    //THAT'S OUR MODAL
+    var modal="<div id='wearetech_modal' style='padding:40px;background:rgba(0,0,0,0.3);z-index:1000000000;position:fixed;width:100%;height;100%;top:0px;left:0px;right:0px;padding-top:100px;'>"+
+            "<div style='width:300px;padding:30px 10px;margin:auto;background:white;text-align:center;border-radius:3px;-webkit-box-shadow: -1px 2px 6px 0px rgba(0,0,0,0.75);-moz-box-shadow: -1px 2px 6px 0px rgba(0,0,0,0.75);box-shadow: -1px 2px 6px 0px rgba(0,0,0,0.75);'>"+
+            "<div style='color:#4099FF;font-size:35px;font-weight:600;margin-bottom:10px;'>WeareTech</div>"+
+            "<div>"+
+            "<table style='width:100%;'>"+
+            "<tbody style='width:100%;''>"+
+            "<tr>"+
+            "<td style='width:50%;'>"+
+            "<div style='text-transform:uppercase;font-size:10px;text-align:left;padding-bottom:3px'>Nombre 1</div>"+
+            "<div><input style='width:100px;height:30px;' name='one' class='one'></div>"+
+            "</td>"+
+            "<td style='width:50%;padding-left:10px;'>"+
+            "<div style='text-transform:uppercase;font-size:10px;text-align:left;padding-bottom:3px'>Nombre 2</div>"+
+            "<div><input style='width:100px;height:30px;' name='two' class='two'></div>"+
+            "</td>"+
+            "</tbody>"+
+            "</table>"+
+            "<div style='margin-top:15px;'>"+
+            "<button style='background:#4099FF;color:white;font-size:13px;font-weight:500;padding:5px 10px;border-radius:3px;' class='validnumber_wearetech'>Valider</button>"+
+            "</div>"+
+            "<div style='margin-top:30px;text-align:center;'>"+
+            "<button id='closemodal_wearetech' style='background:white;color:rgb(100,100,100);border:0;font-size:11px;'>Annuler</button>"+
+            "</div>"+
+            "</div>"+
+            "</div>";
+    //FUNCTION TO LOAD A SCRIPT IN JAVASCRIPT ON THE PAGE
+    function loadScript(url, callback) {
+        var script = document.createElement("script")
+        script.type = "text/javascript";
+        if (script.readyState) { //IE
+            script.onreadystatechange = function () {
+                if (script.readyState == "loaded" || script.readyState == "complete") {
+                    script.onreadystatechange = null;
+                    callback();
+                }
+            };
+        } else { //Others
+            script.onload = function () {
+                callback();
+            };
+        }
+        script.src = url;
+        document.getElementsByTagName("head")[0].appendChild(script);
+    }
+    //SOCKET TO USE AFTER INITIALISATION
+    var socket = null;
+    function checkMaindiv(){
+        //LOAD SOCKET IO LIBRARY FROM CDN
+        loadScript("https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.5.0/socket.io.min.js", function () {
+            console.log('Socket io load');
+            //CHECK IF USER CREATE A DIV WITH ID wearetechapi on PAGE
+            if($('#wearetechapi').length>0){
+                //My div exist
+                $('#wearetechapi').append('<button style="background:#4099FF;border-radius:3px;color:white;padding:4px 10px;font-weight:500;" class="wearetechapi">Mobile money :-)</button>');
+                $('#wearetechapi').css('position','fixed');
+                $('#wearetechapi').css('top','10px');
+                $('#wearetechapi').css('left','10px');
+                $('#wearetechapi').css('width','200px');
+                $('#wearetechapi').css('height','50px');
+                $('#wearetechapi').css('z-index','10000000');
+                detectClic();
+            }else{
+                //APPEND A DIV WITH ID wearetechapi on PAGE IF USER DOESN'T CREATE IT BEFORE
+                $('body').append('<div id="wearetechapi" style="position:fixed;top:10px;left:10px;width:200px;height:50px;z-index:10000000;"></div>');
+                $('#wearetechapi').append('<button style="background:#4099FF;border-radius:3px;color:white;padding:4px 10px;font-weight:500;" class="wearetechapi">Mobile money :-)</button>');
+                detectClic();
+            }
+        });
+    }
+    function detectClic(){
+        //CONNEXION AU SERVEUR POUR LE CHAT
+        socket = io.connect('https://paiementback.herokuapp.com');
+        //TRIGGER WHEN RESULT MESSAGE IS RECEIVED
+        socket.on('result', function(result) {
+            alert('New result');
+            console.log(result);
+        });
+        //TRIGGER WHEN NEW MESSAGE IS RECEIVED
+        socket.on('message', function(message) {
+            alert('Got new message');
+            console.log(message);
+        });
+        //DETECT CLIC ON BUTTON TO LAUNCH MODAL
+        $('body').on('click','.wearetechapi',function(){
+            $('body').append(modal);
+            $('#wearetech_modal').css('height',$(window).height());
+        });
+    }
+    //DETECT CLIC ON BUTTON TO COMPUTE
+    $('body').on('click','.validnumber_wearetech',function(){
+        var numone = $('input.one').val();
+        if(!numone){
+            numone = 0;
+        }else{
+            numone = parseInt(numone);
+        }
+        var numtwo = $('input.two').val();
+        if(!numtwo){
+            numtwo = 0;
+        }else{
+            numtwo = parseInt(numtwo);
+        }
+        var msg = {'num1':numone,'num2':numtwo};
+        socket.emit('message', msg);
+        console.log('new message sent');
+        console.log(socket);
+    });
+    //DETECT CLIC ON BUTTON TO CLOSE MODAL
+    $('body').on('click','#closemodal_wearetech',function(){
+        $('#wearetech_modal').remove();
+    });
+    //WAIT TILL THE PAGE LOAD
+    $(window).bind("load", function() {//ON ATTEND LE CHARGEMENT D'UNE PAGE
+        if (window.jQuery) {
+            // jQuery is loaded
+            checkMaindiv();
+        }else{
+            //LOAD JQUERY IF NOT LOADED
+            loadScript("https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js", function () {
+                alert('JQuery load');
+                checkMaindiv();
+            });
+        }
+    });
+</script>
