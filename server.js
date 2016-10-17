@@ -27,6 +27,7 @@ var app = require('express')();
 
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var fs = require('fs');
 
 var listSocket = new Array();
 var i = 0;
@@ -36,8 +37,16 @@ app.get('/', function(req, res){
 });
 
 app.get('/initpopup', function(req, res){
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    res.end("<h1>Hi Nelson.</h1>");
+    fs.readFile(__dirname + '/public/popup.html', function(error, content) {
+        if (error) {
+            res.writeHead(500, { 'Content-Type': 'text/html' });
+            res.end();
+        }
+        else {
+            res.writeHead(200, { 'Content-Type': 'text/html' });
+            res.end(content, 'utf-8');
+        }
+    });
 });
 
 io.on('connection', function(socket){
