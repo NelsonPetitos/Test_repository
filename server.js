@@ -36,8 +36,8 @@ app.get('/', function(req, res){
 });
 
 app.get('/initpopup', function(req, res){
-    //res.setHeader('content-type', 'text/html');
-    res.sendFile(__dirname + '/public/popup.html');
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end("Hi Nelson.");
 });
 
 io.on('connection', function(socket){

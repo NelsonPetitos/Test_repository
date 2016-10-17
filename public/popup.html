@@ -1,51 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>popup</title>
+    </head>
+    <body>
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">×</span>
+                <label>Nombre 1: </label>
+                <input type="text" id="num1" /><br/>
+                <label>Nombre 2: </label>
+                <input type="text" id="num2" /><br/><br/>
+                <button id="valider"> Valider </button>
+            </div>
+        </div>
 
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            //    (function() {
+            //        var modal = document.getElementById('myModal');
+            //        modal.style.display = "block";
+            //    })();
 
-<div id="myModal" style="display: none; position: fixed; z-index: 1;  padding-top: 100px;  left: 0;  top: 0;  width: 100%;  height: 100%;  overflow: auto;  background-color: rgb(0,0,0);  background-color: rgba(0,0,0,0.4);">
-    <!-- Modal content -->
-    <div style="background-color: #fefefe;  margin: auto;  padding: 20px;  border: 1px solid #888;  width: 20%;">
-        <span class="close">×</span>
-        <label>Nombre 1: </label>
-        <input type="text" id="num1" /><br/>
-        <label>Nombre 2: </label>
-        <input type="text" id="num2" /><br/><br/>
-        <button id="valider"> Valider </button>
-    </div>
-</div>
+            var socket = io()
+            var modal = document.getElementById('myModal');
+            var span = document.getElementsByClassName("close")[0];
+            var validerBtn = document.getElementById('valider');
 
-<script src="/socket.io/socket.io.js"></script>
-<script>
-//    (function() {
-//        var modal = document.getElementById('myModal');
-//        modal.style.display = "block";
-//    })();
+            validerBtn.onclick = function () {
+                var num1 = document.getElementById('num1').value;
+                var num2 = document.getElementById('num2').value;
+                var message = {'num1': num1, 'num2': num2};
+                socket.emit('message', message);
+                modal.style.display = "none";
+            }
 
-    var socket = io()
-    var modal = document.getElementById('myModal');
-    var span = document.getElementsByClassName("close")[0];
-    var validerBtn = document.getElementById('valider');
+            socket.on('result', function(result) {
+                //alert(message.message);
+                document.getElementById('result').innerHTML = result.somme;
+            })
 
-    validerBtn.onclick = function () {
-        var num1 = document.getElementById('num1').value;
-        var num2 = document.getElementById('num2').value;
-        var message = {'num1': num1, 'num2': num2};
-        socket.emit('message', message);
-        modal.style.display = "none";
-    }
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
 
-    socket.on('result', function(result) {
-        //alert(message.message);
-        document.getElementById('result').innerHTML = result.somme;
-    })
-
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
-
-//    window.onclick = function(event) {
-//        if (event.target == modal) {
-//            //modal.style.display = "none";
-//        }
-//    }
-</script>
+            //    window.onclick = function(event) {
+            //        if (event.target == modal) {
+            //            //modal.style.display = "none";
+            //        }
+            //    }
+        </script>
+    </body>
+</html>
 
 
