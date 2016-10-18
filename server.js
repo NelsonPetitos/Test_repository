@@ -24,6 +24,7 @@
 // console.log("App listening on port 8081");
 
 var app = require('express')();
+var cors = require('cors')
 
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -31,6 +32,8 @@ var fs = require('fs');
 
 var listSocket = new Array();
 var i = 0;
+
+app.use(cors())
 
 app.get('/', function(req, res){
     res.sendFile(__dirname + '/public/index.html');
