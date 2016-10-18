@@ -1,42 +1,61 @@
-
-<div id="myModal" style="display: none; position: fixed; z-index: 1;  padding-top: 100px;  left: 0;  top: 0;  width: 100%;  height: 100%;  overflow: auto;  background-color: rgb(0,0,0);  background-color: rgba(0,0,0,0.4);">
-    <!-- Modal content -->
-    <div style="background-color: #fefefe;  margin: auto;  padding: 20px;  border: 1px solid #888;  width: 20%;">
-        <span style="color: #aaaaaa;  float: right;  font-size: 28px;  font-weight: bold;">×</span>
-        <label>Nombre 1: </label>
-        <input type="text" id="num1" /><br/>
-        <label>Nombre 2: </label>
-        <input type="text" id="num2" /><br/><br/>
-        <button id="valider"> Valider </button>
+<div id='wearetech_modal' style='padding:40px;background:rgba(0,0,0,0.3);z-index:1000000000;position:fixed;width:100%;height;100%;top:0px;left:0px;right:0px;padding-top:100px;'>
+    <div style='width:300px;padding:30px 10px;margin:auto;background:white;text-align:center;border-radius:3px;-webkit-box-shadow: -1px 2px 6px 0px rgba(0,0,0,0.75);-moz-box-shadow: -1px 2px 6px 0px rgba(0,0,0,0.75);box-shadow: -1px 2px 6px 0px rgba(0,0,0,0.75);'>
+    <div style='color:#4099FF;font-size:35px;font-weight:600;margin-bottom:10px;'>WeareTech</div>
+    <div>
+    <table style='width:100%;'>
+    <tbody style='width:100%;''>
+    <tr>
+    <td style='width:50%;'>
+    <div style='text-transform:uppercase;font-size:10px;text-align:left;padding-bottom:3px'>Nombre 1</div>
+    <div><input style='width:100px;height:30px;' id='wearetech_numberone' class='one'></div>
+    </td>
+    <td style='width:50%;padding-left:10px;'>
+    <div style='text-transform:uppercase;font-size:10px;text-align:left;padding-bottom:3px'>Nombre 2</div>
+    <div><input style='width:100px;height:30px;' id='wearetech_numbertwo' class='two'></div>
+    </td>
+    </tbody>
+    </table>
+    <div style='margin-top:15px;'>
+    <button style='background:#4099FF;color:white;font-size:13px;font-weight:500;padding:5px 10px;border-radius:3px;' id='wearetech_validnumber'>Valider</button>
+    </div>
+    <div style='margin-top:30px;text-align:center;'>
+    <button id='wearetech_closemodal' style='background:white;color:rgb(100,100,100);border:0;font-size:11px;'>Annuler</button>
+    </div>
     </div>
 </div>
 
+<script>
+    var closebtn = document.getElementById("wearetech_closemodal");
+    var validerBtn = document.getElementById('wearetech_validnumber');
+    var socket;
 
-<script src="/socket.io/socket.io.js"></script>
-<script id="wearetechinsertscript">
-    var socket = io.connect('https://paiementback.herokuapp.com');
-    var modal = document.getElementById('myModal');
-    var span = document.getElementsByClassName("close")[0];
-    var validerBtn = document.getElementById('valider');
+    loadMyScript("https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.5.0/socket.io.min.js", function(){
+        console.log("Charcee.");
+    });
 
-    validerBtn.onclick = function () {
-        alert("yep...");
-        var num1 = document.getElementById('num1').value;
-        var num2 = document.getElementById('num2').value;
+    validerBtn.addEventListener("click", function () {
+        socket = io.connect('https://paiementback.herokuapp.com');
+        console.log("j'ai pu charge le socket.io");
+        socket.on('result', function(result) {
+            document.getElementById('result').innerHTML = result.somme;
+        });
+        var num1 = document.getElementById('wearetech_numberone').value;
+        var num2 = document.getElementById('wearetech_numbertwo').value;
         var message = {'num1': num1, 'num2': num2};
         socket.emit('message', message);
-        modal.style.display = "none";
+        var modaldiv = document.getElementById('wearetech_modal');
+        document.body.removeChild(modaldiv);
+    });
+    closebtn.addEventListener("click", function() {
+        var modaldiv = document.getElementById('wearetech_modal');
+        document.body.removeChild(modaldiv);
+    });
+
+    function loadMyScript(url, callback) {
+        var scrpt = document.createElement("script");
+        scrpt.src = url;
+        scrpt.type = "text/javascript";
+        scrpt.onload = callback();
+        document.getElementsByTagName("head")[0].appendChild(scrpt);
     }
-
-    socket.on('result', function(result) {
-        document.getElementById('result').innerHTML = result.somme;
-    })
-
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
-
 </script>
-
-
-

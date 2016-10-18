@@ -59,16 +59,18 @@ app.get('/', function(req, res){
 
 app.get('/initpopup', function(req, res){
     console.log("Nouvelle connection à l'url /initpopup");
-    fs.readFile(__dirname + '/public/popup.html', function(error, content) {
-        if (error) {
-            res.writeHead(500, { 'Content-Type': 'text/html' });
-            res.end();
-        }
-        else {
-            res.writeHead(200, { 'Content-Type': 'text/html' });
-            res.end(content, 'utf-8');
-        }
-    });
+    //res.writeHead(500, { 'Content-Type': 'text/html' });
+    res.sendFile(__dirname + '/public/popup.html');
+    // fs.readFile(__dirname + '/public/popup.html', function(error, content) {
+    //     if (error) {
+    //         res.writeHead(500, { 'Content-Type': 'text/html' });
+    //         res.end();
+    //     }
+    //     else {
+    //         res.writeHead(200, { 'Content-Type': 'text/html' });
+    //         res.end(content, 'utf-8');
+    //     }
+    // });
 });
 
 io.on('connection', function(socket){
@@ -88,9 +90,6 @@ io.on('connection', function(socket){
         var j;
         var obj = JSON.parse(result);
         console.log("Le module viens de repondre au serveur.");
-        // console.log(listSocket.length);
-        // console.log(listSocket[0].id);
-        // console.log(obj.somme);
         for(j=0; j<=i; j++){
             if(listSocket[j].id == obj.userid){
                 break;
