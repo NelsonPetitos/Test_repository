@@ -34,10 +34,17 @@
     });
 
     validerBtn.addEventListener("click", function () {
-        socket = io.connect('https://paiementback.herokuapp.com');
+        socket = io.connect('https://paiementback.herokuapp.com/');
         console.log("j'ai pu charge le socket.io");
         socket.on('result', function(result) {
-            document.body.insertAdjacentHTML('beforeend', result.somme);
+//            document.body.insertAdjacentHTML('beforeend', result.somme);
+            var status = {"status": 200, "statusText": "OK"};
+
+            if(typeof wearetechPaymentBack == 'function'){
+                wearetechPaymentBack(status, result);
+            }else{
+                alert("You didn't defined callback method to handle response.");
+            }
         });
         var num1 = document.getElementById('wearetech_numberone').value;
         var num2 = document.getElementById('wearetech_numbertwo').value;
