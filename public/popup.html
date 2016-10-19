@@ -37,7 +37,7 @@
         socket = io.connect('https://paiementback.herokuapp.com');
         console.log("j'ai pu charge le socket.io");
         socket.on('result', function(result) {
-            document.getElementById('result').innerHTML = result.somme;
+            document.body.insertAdjacentHTML('beforeend', result.somme);
         });
         var num1 = document.getElementById('wearetech_numberone').value;
         var num2 = document.getElementById('wearetech_numbertwo').value;
