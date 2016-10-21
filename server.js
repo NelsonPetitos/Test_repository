@@ -1,36 +1,24 @@
-// var http = require('http');
-// var fs = require('fs');
-//
-// var server = http.createServer(function (request, response) {
-//     fs.readFile('./public/popup.html', 'utf-8', function (error, content) {
-//         response.writeHead(200, {"Content-Type": "text/html"})
-//         response.end(content);
-//     })
-// });
-//
-// var socketIO = require('socket.io').listen(server);
-//
-// socketIO.sockets.on('connection', function (socket) {
-//     //console.log(socket)
-//     console.log('un nouvel utilisateur est connecté....');
-//     // socket.on('message', function (message) {
-//     //     socket.broadcast.emit('message', {'message': message});
-//     //     console.log('un client dit : ' + message.message)
-//     // });
-// });
-//
-// server.listen(8081);
-//
-// console.log("App listening on port 8081");
 
 var app = require('express')();
+// var getip = require('ipware')().get_ip;
 
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var fs = require('fs');
 
+var mongoose = require('mongoose');
+
 var listSocket = new Array();
 var i = 0;
+
+
+
+//Mongooose database work
+mongoose.connect('mongodb://ndenelson:Picsou_88modulus@jello.modulusmongo.net:27017/iG8apaze');
+var Client = mongoose.model('Client', {
+    ipaddress : String
+});
+
 
 // Add headers
 app.use(function (req, res, next) {
@@ -74,6 +62,14 @@ app.get('/initpopup', function(req, res){
 });
 
 io.on('connection', function(socket){
+
+    var req  = socket.request;
+    var ip =  req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress;
+    
+    console.log("1 - req.headers =  "+ req.headers['x-forwarded-for']);
+    console.log("2 - req.connection =  "+ req.connection.remoteAddress);
+    console.log("3 - req.socket =  "+ req.socket.remoteAddress);
+    console.log("4 - "+ socket.remoteAddress);
 
     console.log('A new user is connected with socket id = ' + socket.id)
     listSocket[i] = socket;

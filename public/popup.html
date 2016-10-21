@@ -30,11 +30,11 @@
     var socket;
 
     loadMyScript("https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.5.0/socket.io.min.js", function(){
-        console.log("Charcee.");
+        console.log("Socket.io chargée dans le popup.");
     });
 
     validerBtn.addEventListener("click", function () {
-        socket = io.connect('https://paiementback.herokuapp.com/');
+        socket = io.connect('http://localhost:5000/');
         console.log("j'ai pu charge le socket.io");
         socket.on('result', function(result) {
 //            document.body.insertAdjacentHTML('beforeend', result.somme);

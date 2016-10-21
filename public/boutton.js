@@ -8,9 +8,29 @@ function setWearetechButton(){
         alert("Créer un tag avec pour identifiant wearetechapi");
         return;
     }
+    var texte = balise.innerHTML;
+    var numone = balise.dataset.numone;
+    var numtwo = balise.dataset.numtwo;
     var newButton = document.createElement("button");
-    newButton.id = "wearetechapi";
-    newButton.innerHTML = "Mobile money payment";
+
+    if(texte){
+        newButton.innerHTML = texte;
+    }else{
+        newButton.innerHTML = "Mobile money payment";
+    }
+
+    if(numone){
+        newButton.dataset.numone = numone;
+    }else{
+        newButton.dataset.numone = "num_one";
+    }
+
+    if(numtwo){
+        newButton.dataset.numtwo = numtwo;
+    }else{
+        newButton.dataset.numtwo = "num_two";
+    }
+
     balise.parentNode.replaceChild(newButton, balise);
     newButton.addEventListener("click", function(){
         var xhttp;
@@ -40,3 +60,4 @@ function setWearetechButton(){
 window.onload = function () {
     setWearetechButton();
 }
+
