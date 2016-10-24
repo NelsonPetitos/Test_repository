@@ -1,5 +1,7 @@
+var express = require('express');
+var app = express();
+var bodyParser = require('body-parser');
 
-var app = require('express')();
 // var getip = require('ipware')().get_ip;
 
 var http = require('http').Server(app);
@@ -11,6 +13,8 @@ var mongoose = require('mongoose');
 var listSocket = new Array();
 var i = 0;
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 
 //Mongooose database work
@@ -45,27 +49,73 @@ app.get('/', function(req, res){
     console.log("Nouvelle connection à l'accueil du serveur.");
 });
 
+
 app.get('/initpopup', function(req, res){
     console.log("Nouvelle connection à l'url /initpopup");
-    //res.writeHead(500, { 'Content-Type': 'text/html' });
-    res.sendFile(__dirname + '/public/popup.html');
-    // fs.readFile(__dirname + '/public/popup.html', function(error, content) {
-    //     if (error) {
-    //         res.writeHead(500, { 'Content-Type': 'text/html' });
-    //         res.end();
-    //     }
-    //     else {
-    //         res.writeHead(200, { 'Content-Type': 'text/html' });
-    //         res.end(content, 'utf-8');
-    //     }
-    // });
+    console.log();
+    var numone = req.query.numone;
+    var numtwo = req.query.numtwo;
+    var htmlBox =
+        "<div id=\'wearetech_modal\' style=\'padding:40px;background:rgba(0,0,0,0.3);z-index:1000000000;position:fixed;width:100%;height;100%;top:0px;left:0px;right:0px;padding-top:100px;\'> " +
+        "<div style=\'width:300px;padding:30px 10px;margin:auto;background:white;text-align:center;border-radius:3px;-webkit-box-shadow: -1px 2px 6px 0px rgba(0,0,0,0.75);-moz-box-shadow: -1px 2px 6px 0px rgba(0,0,0,0.75);box-shadow: -1px 2px 6px 0px rgba(0,0,0,0.75);'> " +
+        "<div style='color:#4099FF;font-size:35px;font-weight:600;margin-bottom:10px;'>WeareTech</div> " +
+        "<div>" + "<table style='width:100%;'>" + "<tbody style='width:100%;''>" + "<tr>" + "<td style='width:50%;'>" +
+        "<div style='text-transform:uppercase;font-size:10px;text-align:left;padding-bottom:3px'>Nombre 1</div>" +
+        "<div><input style='width:100px;height:30px;' id='wearetech_numberone' class='one' value="+numone+" disabled='disabled'></div>" + "</td>" + "<td style='width:50%;padding-left:10px;'>" +
+        "<div style='text-transform:uppercase;font-size:10px;text-align:left;padding-bottom:3px'>Nombre 2</div>" +
+        "<div><input style=\'width:100px;height:30px;\' id=\'wearetech_numbertwo\' class=\'two\' value="+numtwo+" disabled='disabled'></div>" + "</td> </tbody> </table>" + "<div style=\'margin-top:15px;\'>" +
+        "<button style=\'background:#4099FF;color:white;font-size:13px;font-weight:500;padding:5px 10px;border-radius:3px;\' id=\'wearetech_validnumber\'>Valider</button>" + "</div>" +
+        "<div style=\'margin-top:30px;text-align:center;\'>" +
+        "<button id=\'wearetech_closemodal\' style=\'background:white;color:rgb(100,100,100);border:0;font-size:11px;\'>Annuler</button> </div> </div> </div>";
+
+    var boxScript =
+        "<script>" +
+            "var closebtn = document.getElementById('wearetech_closemodal');" +
+            "var validerBtn = document.getElementById('wearetech_validnumber');" +
+            "var socket;" +
+            "loadMyScript('https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.5.0/socket.io.min.js', function(){" +
+                "console.log('Socket.io chargée dans le popup.');" +
+            "});" +
+            "validerBtn.addEventListener('click', function () {" +
+                "socket = io.connect('https://paiementback.herokuapp.com/');" +
+                "console.log('jai pu charge le socket.io');" +
+                "socket.on('result', function(result) {" +
+                    "var status = {'status': 200, 'statusText': 'OK'};" +
+                    "if(typeof wearetechPaymentBack == 'function'){" +
+                        "wearetechPaymentBack(status, result);" +
+                    "}else{" +
+                        "alert('Define callback method to handle response.');" +
+                    "}" +
+                "});" +
+                "var num1 = document.getElementById('wearetech_numberone').value;" +
+                "var num2 = document.getElementById('wearetech_numbertwo').value;" +
+                "var message = {'num1': num1, 'num2': num2};" +
+                "socket.emit('message', message);" +
+                "var modaldiv = document.getElementById('wearetech_modal');" +
+                "document.body.removeChild(modaldiv);" +
+            "});" +
+            "closebtn.addEventListener('click', function() {" +
+                "var modaldiv = document.getElementById('wearetech_modal');" +
+                "document.body.removeChild(modaldiv);" +
+            "});" +
+            "function loadMyScript(url, callback) {" +
+                "var scrpt = document.createElement('script');" +
+                "scrpt.src = url;" +
+                "scrpt.type = 'text/javascript';" +
+                "scrpt.onload = callback();" +
+                "document.getElementsByTagName('head')[0].appendChild(scrpt);" +
+            "} " +
+        "<\/script>";
+
+    res.send(htmlBox+boxScript);
+
 });
 
 io.on('connection', function(socket){
 
     var req  = socket.request;
     var ip =  req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress;
-    
+
     console.log("1 - req.headers =  "+ req.headers['x-forwarded-for']);
     console.log("2 - req.connection =  "+ req.connection.remoteAddress);
     console.log("3 - req.socket =  "+ req.socket.remoteAddress);
