@@ -53,9 +53,8 @@ app.use('/font', express.static(__dirname+'/font/'));
 app.engine('html', require('ejs').renderFile);
 
 app.get('/', function(req, res){
-    res.render('index.html');
     console.log("Connection en get sur le chemin home");
-
+    res.render('index.html');
 });
 
 
