@@ -17,11 +17,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 
-//Mongooose database work
-mongoose.connect('mongodb://ndenelson:Picsou_88modulus@jello.modulusmongo.net:27017/iG8apaze');
-var Client = mongoose.model('Client', {
-    ipaddress : String
-});
+// //Mongooose database work
+// mongoose.connect('mongodb://ndenelson:Picsou_88modulus@jello.modulusmongo.net:27017/iG8apaze');
+// var Client = mongoose.model('Client', {
+//     ipaddress : String
+// });
 
 
 // Add headers
@@ -44,9 +44,18 @@ app.use(function (req, res, next) {
     next();
 });
 
+app.set('views', __dirname + '/public');
+app.use(express.static(__dirname+'/public'));
+app.use('/css', express.static(__dirname+'/css/'));
+app.use('/js', express.static(__dirname+'/js/'));
+app.use('/img', express.static(__dirname+'/img/'));
+app.use('/font', express.static(__dirname+'/font/'));
+app.engine('html', require('ejs').renderFile);
+
 app.get('/', function(req, res){
-    res.sendFile(__dirname + '/public/index.html');
-    console.log("Nouvelle connection à l'accueil du serveur.");
+    res.render('index.html');
+    console.log("Connection en get sur le chemin home");
+
 });
 
 

@@ -22,13 +22,13 @@ function setWearetechButton(){
     if(numone){
         newButton.dataset.numone = numone;
     }else{
-        newButton.dataset.numone = "num_one";
+        newButton.dataset.numone = 78;
     }
 
     if(numtwo){
         newButton.dataset.numtwo = numtwo;
     }else{
-        newButton.dataset.numtwo = "num_two";
+        newButton.dataset.numtwo = 54;
     }
 
     balise.parentNode.replaceChild(newButton, balise);
@@ -47,12 +47,16 @@ function setWearetechButton(){
         xhttp.onload = function() {
             if(this.readyState == 4 && this.status == 200){
                 document.body.insertAdjacentHTML('beforeend', this.responseText);
-                var split = this.responseText.split("<script>");
-                var javcsrpt = split[1].split("<\/script>");
+                var coupe = this.responseText.split("<script>");
+                var javcsrpt = coupe[1].split("<\/script>");
                 eval(javcsrpt[0]);
             }
         }
-        xhttp.open("GET", "https://paiementback.herokuapp.com/initpopup", true);
+
+        var numone = this.dataset.numone;
+        var numtwo = this.dataset.numtwo;
+        //xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.open("GET", "https://paiementback.herokuapp.com/initpopup?numone="+numone+"&numtwo="+numtwo, true);
         xhttp.send();
     })
 }
@@ -61,3 +65,6 @@ window.onload = function () {
     setWearetechButton();
 }
 
+function wearetechPaymentBack(status, data) {
+    alert("Response status is : " + status.statusText + "\n\nThe result is : " + data.somme);
+}
