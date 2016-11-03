@@ -172,7 +172,7 @@ header .navbar {
 }
 .navbar-brand {
   padding: 0;
-  height: auto;
+  height: 100%;
 }
 .navbar-toggle {
   border-color: #333;
