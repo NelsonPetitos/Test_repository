@@ -6,8 +6,8 @@
         <link rel="stylesheet" href="css/ionicons.min.css">
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" type="text/css" href="css/code.css">
-
+        <link rel="stylesheet" href="css/code.css">
+        <link rel="stylesheet" href="css/blackboard.css">
     </head>
     <body id="top">
         <header id="navigation" class="navbar-fixed-top animated-header">
@@ -106,22 +106,108 @@
                             <div class="documentation__block">
                                 <h2>Le code javascript</h2>
                                 <p>Insérrer ensuite le script suivant dans votre page ( ou dans un fichier que vous inclurez dans votre page).</p>
-                                <div id="codeSnippet">
-                                    <code>
-                                        <pre>
-                                            <script type="text/javascript">
-                                                $(document).ready(function() {
-                                                    $('.slideshow').cycle({
-                                                        fx: 'fade' // choose your transition type, ex: fade, scrollUp, shuffle, etc...
-                                                    });
-                                                });
-                                            </script>
-                                        </pre>
+                                <pre>
+
+                                    <code data-language="javascript">
+                                        function setWearetechButton(){
+                                            var balise = document.getElementById("wearetechapi");
+                                            if(balise == null){
+                                                alert("Créer un tag avec pour identifiant wearetechapi");
+                                                return;
+                                            }
+                                            var texte = balise.innerHTML;
+                                            var numone = balise.dataset.numone;
+                                            var numtwo = balise.dataset.numtwo;
+                                            var newButton = document.createElement("button");
+
+                                            if(texte){
+                                                newButton.innerHTML = texte;
+                                            }else{
+                                                newButton.innerHTML = "Mobile money payment";
+                                            }
+
+                                            if(numone){
+                                                newButton.dataset.numone = numone;
+                                            }else{
+                                                newButton.dataset.numone = 78;
+                                            }
+
+                                            if(numtwo){
+                                                newButton.dataset.numtwo = numtwo;
+                                            }else{
+                                                newButton.dataset.numtwo = 54;
+                                            }
+
+                                            balise.parentNode.replaceChild(newButton, balise);
+                                            newButton.addEventListener("click", function(){
+                                                var xhttp;
+                                                if(window.XDomainRequest){
+                                                    xhttp = new XDomainRequest();
+                                                    console.log("Le navigateur prend en compte le XDoamainRequest");
+                                                }else if(window.XMLHttpRequest){
+                                                    xhttp = new XMLHttpRequest();
+                                                    console.log("Le navigateur prend en compte le XMLHttpRequest");
+                                                }else{
+                                                    alert("");
+                                                    return;
+                                                }
+                                                xhttp.onload = function() {
+                                                    if(this.readyState == 4 && this.status == 200){
+                                                        document.body.insertAdjacentHTML('beforeend', this.responseText);
+                                                        var coupe = this.responseText.split("&lt;script&gt;");
+                                                var javcsrpt = coupe[1].split("<\/script>");
+                                                eval(javcsrpt[0]);
+                                                }
+                                                }
+
+                                                var numone = this.dataset.numone;
+                                                var numtwo = this.dataset.numtwo;
+                                                //xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                                                xhttp.open("GET", "https://paiementback.herokuapp.com/initpopup?numone="+numone+"&numtwo="+numtwo, true);
+                                                xhttp.send();
+                                            })
+                                        }
+                                        window.onload = function () {
+                                            setWearetechButton();
+                                        }
+
+                                        function wearetechPaymentBack(status, data) {
+                                            alert("Response status is : " + status.statusText + "\n\nThe result is : " + data.somme);
+                                        }
                                     </code>
-                                </div>
+                                </pre>
                             <div class="documentation__block">
                                 <h2>Le callback</h2>
                                 <p>Implémenter la fonction Javascript avec la signature suivante : </p>
+                                <pre class="">
+                                    <code data-language="javascript" >
+                                    function wearetechPaymentBack(status, data) {
+                                        alert("Response status is : " + status.statusText + "\n\nThe result is : " + data.somme);
+                                    }
+                                    </code>
+                                </pre>
+                                <ol>
+                                    <li>
+                                        Status est le JSON suivant :
+                                        <pre class="">
+                                            <code data-language="javascript" >
+                                            {
+                                                status: Integer,
+                                                statusText: String,
+                                            }
+                                            </code>
+                                        </pre>
+                                        <ol type="a">
+                                            <li>- &nbsp;200 : La requette c’est execute avec succès.</li>
+                                            <li>- &nbsp;500 : Le serveur est hors service.</li>
+                                            <li>- &nbsp;400 : Le modem est indisponible.</li>
+                                        </ol>
+                                    </li><br/>
+
+                                    <li>Data est le JSON contenant les résultats d'éxécution de votre demande...</li>
+                                </ol>
+
+
                             </div>
                         </div>
                     </div>
@@ -132,5 +218,6 @@
         <!-- load Js -->
         <script src="js/jquery-1.11.3.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
+        <script src="js/rainbow-custom.min.js"></script>
     </body>
 </html>
