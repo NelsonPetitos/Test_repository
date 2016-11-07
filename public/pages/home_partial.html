@@ -1,0 +1,125 @@
+
+<section id="banner">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block">
+                    <h1>Une API Mobile Money.</h1>
+                    <h2>Intégration simple, rapide et sécurisée des solutions Mobile Money au developpement web.</h2>
+                    <div class="buttons">
+                        <a href="#" class="btn btn-learn">Créer compte</a>
+                        <a href="#" class="btn btn-learn">Débuter ici</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section id="features">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="title">
+                    <h2>WearetecAPI Mobile money.</h2>
+                    <p>Un outil qui vise a optimiser sa prise en main par les débutants comme par les experts du developpement web. <br/>Intégrer un module de paiement en ligne n'a jamais été aussi rapide.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-xs-6 col-sm-6">
+                <div class="feature-block text-center">
+                    <div class="icon-box">
+                        <i class="icon ion-ios-world"></i>
+                    </div>
+                    <h4 class="wow fadeInUp" data-wow-delay=".3s">Faciliter le developpement de site de e-commerce.</h4>
+                    <p class="wow fadeInUp" data-wow-delay=".5s">Nous voulons donner la possibilité aux développeurs de se soustraire de toute la problématique liée à la sécurité, à la cohésion et à la conhérence de transactions monétaires pour se concentrer sur la logique applicative de son site.</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-6 col-sm-6">
+                <div class="feature-block text-center">
+                    <div class="icon-box">
+                        <i class="icon ion-ios-cart"></i>
+                    </div>
+                    <h4 class="wow fadeInUp" data-wow-delay=".3s">Simplifier les achats en lignes</h4>
+                    <p class="wow fadeInUp" data-wow-delay=".5s">Donner la possibilité à tous avec un simple compte Mobile Money d'effectuer ses paiements en ligne.</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-6 col-sm-6">
+                <div class="feature-block text-center">
+                    <div class="icon-box">
+                        <i class="icon ion-ios-unlocked"></i>
+                    </div>
+                    <h4 class="wow fadeInUp" data-wow-delay=".3s">Sécurité et confidentialité</h4>
+                    <p class="wow fadeInUp" data-wow-delay=".5s">Il est guarranti que toutes les transactions se ferront dans le respect la législation sur les .... Voir les mentions légales pour plus de détails.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<div id="editor">
+    <pre class="  language-javascript">
+        <span class="custom-line-numbers">1 2 3 4 5 6 7 8 9 10 11 12 13</span>
+        <code class="  language-javascript">
+            <span class="token keyword">const</span>
+            stripe
+            <span class="token operator">=</span>
+            <span class="token function">require</span>
+            <span class="token punctuation">(</span>
+            <span class="token string">'stripe'</span>
+            <span class="token punctuation">)</span>
+            <span class="token punctuation">(</span>
+            <span class="token string">'sk_test_BQokikJOvBiI2HlWgH4olfQ2'</span>
+            <span class="token punctuation">)</span>
+            <span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">// Create your first payment from a test card.</span>
+            <span class="token keyword">const</span>
+            charge
+            <span class="token operator">=</span>
+            <span class="token keyword">await</span>
+            stripe
+            <span class="token punctuation">.</span>
+            charges
+            <span class="token punctuation">.</span>
+            <span class="token function">create</span>
+            <span class="token punctuation">(</span>
+            <span class="token punctuation">{</span>
+            amount
+            <span class="token punctuation">:</span>
+            <span class="token number">2000</span>
+            <span class="token punctuation">,</span>
+            currency
+            <span class="token punctuation">:</span>
+            <span class="token string">'usd'</span>
+            <span class="token punctuation">,</span>
+            source
+            <span class="token punctuation">:</span>
+            <span class="token punctuation">{</span>
+            number
+            <span class="token punctuation">:</span>
+            <span class="token string">'4242424242424242'</span>
+            <span class="token punctuation">,</span>
+            cvc
+            <span class="token punctuation">:</span>
+            <span class="token string">'123'</span>
+            <span class="token punctuation">,</span>
+            exp_month
+            <span class="token punctuation">:</span>
+            <span class="token number">12</span>
+            <span class="token punctuation">,</span>
+            exp_year
+            <span class="token punctuation">:</span>
+            <span class="token number">2018</span>
+            <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+            <span class="token punctuation">)</span>
+            <span class="token punctuation">;</span>
+        </code>
+    </pre>
+</div>
+

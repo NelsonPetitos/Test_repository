@@ -1,15 +1,32 @@
 {
-  "name": "HelloWorldNodeJS",
-  "version": "0.0.0",
-  "description": "Simple hello world",
+  "name": "Wearetechpai",
+  "version": "1.0.0",
+  "description": "Our api scratch",
   "main": "server.js",
   "author": "Nelson",
+
   "dependencies": {
     "body-parser": "^1.15.2",
     "express": "~4.13.4",
     "method-override": "~2.1.3",
     "mongoose": "^4.4.12",
     "morgan": "~1.7.0",
-    "socket.io": "^1.5.0"
+    "socket.io": "^1.5.0",
+
+    "@angular/common": "~2.1.1",
+    "@angular/compiler": "~2.1.1",
+    "@angular/core": "~2.1.1",
+    "@angular/forms": "~2.1.1",
+    "@angular/http": "~2.1.1",
+    "@angular/platform-browser": "~2.1.1",
+    "@angular/platform-browser-dynamic": "~2.1.1",
+    "@angular/router": "~3.1.1",
+    "@angular/upgrade": "~2.1.1",
+    "angular-in-memory-web-api": "~0.1.13",
+    "core-js": "^2.4.1",
+    "reflect-metadata": "^0.1.8",
+    "rxjs": "5.0.0-beta.12",
+    "systemjs": "0.19.39",
+    "zone.js": "^0.6.25"
   }
 }

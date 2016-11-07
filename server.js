@@ -1,5 +1,5 @@
 var express = require('express');
-var app = express();
+                var app = express();
 var bodyParser = require('body-parser');
 
 // var getip = require('ipware')().get_ip;
@@ -55,6 +55,10 @@ app.engine('html', require('ejs').renderFile);
 app.get('/', function(req, res){
     console.log("Connection en get sur le chemin home");
     res.render('index.html');
+});
+
+app.get('/documentation', function(request, response) {
+    response.render("./pages/documentation.html");
 });
 
 
