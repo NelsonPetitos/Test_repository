@@ -55,33 +55,33 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6 col-md-offset-3">
-                        <form class="form-horizontal" style="padding-top:28px;">
+                        <form method="post" action="/register" class="form-horizontal" style="padding-top:28px;">
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">Non </label>
+                                <label for="username" class="col-sm-3 control-label">Non </label>
                                 <div class="col-sm-9">
-                                    <input type="email" class="form-control" id="email" placeholder="Nom de l'individu ou de la structure" name="nom" />
+                                    <input type="email" required="required" class="form-control" id="username" placeholder="Nom de l'individu ou de la structure" name="username" />
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">Email</label>
+                                <label for="useremail" class="col-sm-3 control-label">Email</label>
                                 <div class="col-sm-9">
-                                    <input type="email" class="form-control" id="email" placeholder="Addresse mail ou identifiant" name="email">
+                                    <input type="email" required="required" class="form-control" id="useremail" placeholder="Addresse mail ou identifiant" name="useremail">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="pwd" class="col-sm-3 control-label">Mot de passe</label>
                                 <div class="col-sm-9">
-                                    <input type="password" class="form-control" id="pwd" name="password" />
+                                    <input type="password" required="required" class="form-control" id="pwd" name="userpassword"  placeholder="Mot de passe"/>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="pwd" class="col-sm-3 control-label">Confirmer mot de passe</label>
+                                <label for="confirmpwd" class="col-sm-3 control-label">Confirmer </label>
                                 <div class="col-sm-9">
-                                    <input type="password" class="form-control" id="pwd" name="confirmpassword" />
+                                    <input type="password" class="form-control" id="confirmpwd" required="required" name="userconfirmpassword" placeholder="Saisir le mot de passe à nouveau" />
                                 </div>
                             </div>
                             <div class="form-group" style="text-align: right; padding-right: 20px;">
-                                <button type="button" class="">S'enregistrer</button>
+                                <button type="submit" class="">S'enregistrer</button>
                                 <!--<button type="button" onclick="document.getElementById('modal__element').style.display = 'none'; " class="">Annuler</button>-->
                             </div>
                         </form>

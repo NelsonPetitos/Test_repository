@@ -80,21 +80,56 @@ app.get('/ressources/wearetechapi-v1.js', function (request, response) {
 //     response.render("./pages/documentation.html");
 // });
 //
-app.get('/register', function (request, response) {
-    response.render('./pages/register.html');
-});
 
 app.post('/login', function(request, response){
     console.log(request.body);
-    Client.find(request.body, (err) => {
-        if(err) throw error
-        response.redirect('/');
+    Client.find(request.body, function(err, client){
+        console.log(err);
+        if(err){
+            console.log("Une erreur est survenu pendand la recherche "+err);
+            response.redirect(500, '/');
+        }else{
+            console.log(client);
+            if(client.length == 0){
+                console.log("Cet utilisteur n'existe pas");
+                response.redirect('/');
+            }else{
+                response.render('./pages/member.html', {client: client});
+            }
+        }
     })
 
 })
+//
+// app.get('/member', function(request, response){
+//     response.render('./pages/member.html');
+// });
+
+
+app.get('/register', function (request, response) {
+    console.log("Connect to register in get");
+    response.render('./pages/register.html');
+});
+
 
 app.post('/register', function(request, response){
     console.log(request.body);
+    var data = request.body;
+    var client = new Client();
+    client.apikey = "A@e9B3n#$5c";
+    client.useremail =  data.useremail;
+    client.username = data.username;
+    client.userpassword = data.userpassword;
+    client.save(function(err){
+        if(err){
+            console.log("Une erreur c'est produite lors de l'enregistrement de l'utilisateur");
+            response.redirect('/register');
+        }else{
+            console.log("L'utilisateur a ete creer avec succes");
+            response.render('./pages/member.html');
+        }
+    })
+    response.redirect('/')
 })
 //
 // app.get('/login', function (request, response) {
