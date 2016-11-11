@@ -129,7 +129,6 @@ app.post('/register', function(request, response){
             response.render('./pages/member.html');
         }
     })
-    response.redirect('/')
 })
 //
 // app.get('/login', function (request, response) {
