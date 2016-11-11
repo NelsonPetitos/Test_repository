@@ -1,5 +1,5 @@
 var express = require('express');
-                var app = express();
+var app = express();
 var bodyParser = require('body-parser');
 
 // var getip = require('ipware')().get_ip;
@@ -13,18 +13,18 @@ var mongoose = require('mongoose');
 var listSocket = new Array();
 var i = 0;
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
 
 
 // //Mongooose database work
-// mongoose.connect('mongodb://ndenelson:Picsou_88modulus@jello.modulusmongo.net:27017/iG8apaze');
-// var Client = mongoose.model('Client', {
-//     ipaddress : String
-// });
+mongoose.connect('mongodb://ndenelson:Picsou_88modulus@jello.modulusmongo.net:27017/iG8apaze');
+var Client = mongoose.model('Client', {
+    apikey : String,
+    username : String,
+    useremail: String,
+    userpassword: String,
+});
 
-
-// Add headers
+// Le middleware
 app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
@@ -44,29 +44,68 @@ app.use(function (req, res, next) {
     next();
 });
 
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+// Specified to render static file such as images, css files or javascript file
+app.use('/ressources', express.static(__dirname+'/public/css/'));
+app.use('/ressources',express.static(__dirname+'/public/js/'));
+app.use('/ressources', express.static(__dirname+'/public/img/'));
+app.use('/ressources', express.static(__dirname+'/public/fonts/'));
+
+
+
+//Setting the template engine to be ejs
+app.set('view engine', 'ejs');
 app.set('views', __dirname + '/public');
-app.use(express.static(__dirname+'/public'));
-app.use('/css', express.static(__dirname+'/css/'));
-app.use('/js', express.static(__dirname+'/js/'));
-app.use('/img', express.static(__dirname+'/img/'));
-app.use('/font', express.static(__dirname+'/font/'));
 app.engine('html', require('ejs').renderFile);
 
+
+//Routes
 app.get('/', function(req, res){
     console.log("Connection en get sur le chemin home");
     res.render('index.html');
 });
 
-app.get('/documentation', function(request, response) {
-    response.render("./pages/documentation.html");
+app.get('/ressources/wearetechapi-v1.js', function (request, response) {
+    response.setHeader('content-type', 'text/javascript');
+    //response.render('js/wearetechapi-v1.js');
 });
 
+
+
+
+// app.get('/documentation', function(request, response) {
+//     response.render("./pages/documentation.html");
+// });
+//
+app.get('/register', function (request, response) {
+    response.render('./pages/register.html');
+});
+
+app.post('/login', function(request, response){
+    console.log(request.body);
+    Client.find(request.body, (err) => {
+        if(err) throw error
+        response.redirect('/');
+    })
+
+})
+
+app.post('/register', function(request, response){
+    console.log(request.body);
+})
+//
+// app.get('/login', function (request, response) {
+//     response.render('./pages/login.html');
+// });
 
 app.get('/initpopup', function(req, res){
     console.log("Nouvelle connection à l'url /initpopup");
     console.log();
-    var numone = req.query.numone;
-    var numtwo = req.query.numtwo;
+    var montant = req.query.amount;
+    // var numtwo = req.query.numtwo;
     var htmlBox =
         "<div id=\'wearetech_modal\' style=\'padding:40px;background:rgba(0,0,0,0.3);z-index:1000000000;position:fixed;width:100%;height;100%;top:0px;left:0px;right:0px;padding-top:100px;\'> " +
         "<div style=\'width:300px;padding:30px 10px;margin:auto;background:white;text-align:center;border-radius:3px;-webkit-box-shadow: -1px 2px 6px 0px rgba(0,0,0,0.75);-moz-box-shadow: -1px 2px 6px 0px rgba(0,0,0,0.75);box-shadow: -1px 2px 6px 0px rgba(0,0,0,0.75);'> " +
@@ -123,6 +162,10 @@ app.get('/initpopup', function(req, res){
 
 });
 
+app.listen((process.env.PORT || 5000), function(){
+    console.log('Le serveur écoute sur le port : '+ (process.env.PORT || 5000));
+});
+
 io.on('connection', function(socket){
 
     var req  = socket.request;
@@ -161,6 +204,4 @@ io.on('connection', function(socket){
     });
 });
 
-http.listen((process.env.PORT || 5000), function(){
-    console.log('Le serveur écoute sur le port : '+ (process.env.PORT || 5000));
-});
+

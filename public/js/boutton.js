@@ -68,3 +68,4 @@ window.onload = function () {
 function wearetechPaymentBack(status, data) {
     alert("Response status is : " + status.statusText + "\n\nThe result is : " + data.somme);
 }
+

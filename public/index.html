@@ -8,9 +8,9 @@
         <!-- google fonts -->
 
         <!-- Css link -->
-        <link rel="stylesheet" href="css/ionicons.min.css">
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="/ressources/ionicons.min.css">
+        <link rel="stylesheet" href="/ressources/bootstrap.min.css">
+        <link rel="stylesheet" href="/ressources/style.css">
 
     </head>
     <body id="top">
@@ -29,7 +29,7 @@
 
                     <!-- logo -->
                     <h1 class="navbar-brand">
-                        <a href="#body"><img src="img/logo.png" /></a>
+                        <a href="#body"><img src="/ressources/logo.png" /></a>
                     </h1>
                     <!-- /logo -->
                 </div>
@@ -39,10 +39,10 @@
                     <ul id="nav" class="nav navbar-nav menu">
                         <li class="active"><a href="/">Accueil</a></li>
                         <li><a href="#">Produits</a></li>
-                        <li><a href="/documentation">Documentation</a></li>
+                        <li><a href="#">Documentation</a></li>
                         <li><a href="#">Entreprise</a></li>
                         <li><a href="#">Support</a></li>
-                        <li><a href="#">Gérer son compte</a></li>
+                        <li><a href="#" onclick="document.getElementById('modal__element').style.display = 'block';">Gérer son compte</a></li>
                     </ul>
                 </nav>
                 <!-- /main nav -->
@@ -61,8 +61,8 @@
                                 <h1>Une API Mobile Money.</h1>
                                 <h2>Intégration simple, rapide et sécurisée des solutions Mobile Money au developpement web.</h2>
                                 <div class="buttons">
-                                    <a href="#" class="btn btn-learn">Créer compte</a>
-                                    <a href="/documentation" class="btn btn-learn">Débuter ici</a>
+                                    <a href="/register" class="btn btn-learn">Créer compte</a>
+                                    <a href="#" class="btn btn-learn">Débuter ici</a>
                                 </div>
                             </div>
                         </div>
@@ -160,9 +160,38 @@
             </div>
         </footer>
 
+        <div class="modal__element" id="modal__element">
+            <div class="modal__content">
+                <span class="modal__header">S'identifier</span>
+                <span class="modal__body">
+					<span style="display: none; width: 100%; height:20px; color: red; padding: 5px; margin-bottom:10px; margin-top: 10px; text-align:center; padding:0; border-radius:6px; background-color: rgba(255, 0, 0, 0.2)">Sorry! Wrong phone number.</span>
+					<form class="form-horizontal" style="padding-top:28px;" method="post" action="/login">
+					 	<div class="form-group">
+						    <label class="col-sm-3 control-label">Email</label>
+						    <div class="col-sm-9">
+						      	<input type="email" name="useremail" class="form-control" id="email" placeholder="Addresse mail ou identifiant">
+						    </div>
+					 	</div>
+					  	<div class="form-group">
+					    	<label for="pwd" class="col-sm-3 control-label">Mot de passe</label>
+						    <div class="col-sm-9">
+						      <input type="password" name="userpassword" class="form-control" id="pwd">
+						    </div>
+					  	</div>
+					  	<div class="form-group" style="text-align: right; padding-right: 20px;">
+
+					  		<button type="button" onclick="document.getElementById('modal__element').style.display = 'none'; " class="">Annuler</button>
+                            <button type="submit" class="">Valider</button>
+					  	</div>
+					</form>
+
+				</span>
+                <span class="modal__footer">Si vous n'êtes pas membre <a href="/register">enregistrez vous ici</a> </span>
+            </div>
+        </div>
         <!-- load Js -->
         <script src=""></script>
-        <script src="js/jquery-1.11.3.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
+        <script src="/ressources/jquery-1.11.3.min.js"></script>
+        <script src="ressources/bootstrap.min.js"></script>
     </body>
 </html>
